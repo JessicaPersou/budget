@@ -33,6 +33,7 @@ public class CategoriaResource { // é o reecurso de categoria, vai expor, tudo 
 	
 	@PostMapping
 	//@ResponseStatus(HttpStatus.CREATED) // para mostrar 201 created que serve essa anotação
+	//requestbody transforma o que foi enviado no jason em objeto com essa anotação e retorna como categoria salva
 	public ResponseEntity<Categoria> criar(@RequestBody Categoria categoria, HttpServletResponse response) {
 		Categoria categoriaSalva = categoriaRepository.save(categoria);
 		

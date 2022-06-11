@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice // essa classe captura excessoes de respostas de entidades
 public class ExceptionHandler extends ResponseEntityExceptionHandler{
 
-	@Autowired
+	@Autowired //ingetando a mensagem
 	private MessageSource messageSource;
 	
-	@Override
+	@Override // capturando mensagens que não foram possiveis interpretar
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
+		HttpHeaders headers, HttpStatus status, WebRequest request) {
 		String mensagemUsuario = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
 		String mensagemDev = ex.getCause().toString();
 		return handleExceptionInternal(ex, new Erro(mensagemUsuario, mensagemDev), headers, HttpStatus.BAD_REQUEST, request);
@@ -41,8 +41,6 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler{
 		public String getMensagemDev() {
 			return mensagemDev;
 		}
-
-		
 		
 	}
 }
