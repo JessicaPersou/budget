@@ -9,6 +9,7 @@ import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,7 @@ public class CategoriaResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Categoria> criar(@RequestBody Categoria categoria, HttpServletResponse response) {
+	public ResponseEntity<Categoria> criar(@Validated @RequestBody Categoria categoria, HttpServletResponse response) { //o validated, está validando valores inválidos
 		Categoria categoriaSalva = categoriaRepository.save(categoria); //criando uma nova categoria
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 		.buildAndExpand(categoriaSalva.getId()).toUri();
@@ -51,4 +52,4 @@ public class CategoriaResource {
 	}
 	
 }
-/*Também chamada de controller é responsável por ligar a model e a view, fazendo com que os models possam ser representados para as views e vice-versa*/
+/*Também chamada de Controller é responsável por ligar a model e a view, fazendo com que os models possam ser representados para as views e vice-versa*/

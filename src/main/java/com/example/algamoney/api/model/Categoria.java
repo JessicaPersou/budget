@@ -1,5 +1,7 @@
 package com.example.algamoney.api.model;
 
+import com.sun.istack.NotNull;
+
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotNull
 	private String nome;
 	public Long getId() {
 		return id;
