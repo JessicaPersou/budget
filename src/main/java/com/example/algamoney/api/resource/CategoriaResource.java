@@ -51,3 +51,4 @@ public class CategoriaResource {
 	}
 	
 }
+/*Também chamada de controller é responsável por ligar a model e a view, fazendo com que os models possam ser representados para as views e vice-versa*/

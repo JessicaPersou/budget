@@ -45,3 +45,4 @@ public class Categoria {
 	}
 	
 }
+/*A model é responsável pela manipulação e acesso aos dados , representa o negócio*/
