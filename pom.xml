@@ -32,6 +32,11 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
+		<!--validação de mensagem de erro-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 		<!-- MySQL -->
 		<dependency>
 			<groupId>mysql</groupId>

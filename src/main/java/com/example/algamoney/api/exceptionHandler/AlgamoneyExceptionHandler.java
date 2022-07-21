@@ -17,16 +17,32 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Autowired
     private MessageSource messageSource;
-    @Override
+    @Override // pega as mensagens que não foram possiveis interpretar
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-        String mensagemUsuario = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder);
+        String mensagemUsuario = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
 
+        String mensagemDev = ex.getCause().toString();
        // List<Erro> erros = criarListaDeErros();
-        return handleExceptionInternal(ex,"Mensagem Inválida",headers, HttpStatus.BAD_REQUEST,request);
+        return handleExceptionInternal(ex, new Erro(mensagemUsuario,mensagemDev), headers, HttpStatus.BAD_REQUEST,request);
     }
 
-   /* private List<Erro> criarListaDeErros(){
-        List<Erro> erros = new ArrayList<>();
-    }*/
+  public static class Erro{
+        private String mensagemUsuario;
+        private String mensagemDev;
+
+        public Erro(String mensagemUsuario,String mensagemDev){
+            this.mensagemUsuario = mensagemUsuario;
+            this.mensagemDev = mensagemDev;
+        }
+
+      public String getMensagemUsuario() {
+          return mensagemUsuario;
+      }
+
+      public String getMensagemDev() {
+          return mensagemDev;
+      }
+
+  }
 }
