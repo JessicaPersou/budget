@@ -32,7 +32,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-		<!--validação de mensagem de erro-->
+		<!--Validação de Mensagem de Erro-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
