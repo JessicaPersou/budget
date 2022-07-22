@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class CategoriaResource {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Categoria> criar(@Validated @RequestBody Categoria categoria, HttpServletResponse response) { //o validated, está validando valores inválidos
+	public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) { //o validated, está validando valores inválidos
 		Categoria categoriaSalva = categoriaRepository.save(categoria); //criando uma nova categoria
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 		.buildAndExpand(categoriaSalva.getId()).toUri();
