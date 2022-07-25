@@ -1,5 +1,5 @@
     CREATE TABLE pessoa (
-        idPessoa BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+        id BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
         nome VARCHAR(50) NOT NULL,
         logradouro VARCHAR(30),
         numero VARCHAR(30),
