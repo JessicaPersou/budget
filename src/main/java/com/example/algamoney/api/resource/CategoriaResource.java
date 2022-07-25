@@ -2,12 +2,15 @@ package com.example.algamoney.api.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.Flow;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import com.example.algamoney.api.event.RecursoCriadorEvent;
 import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,6 +32,9 @@ public class CategoriaResource {
 	
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+
+	@Autowired
+	private ApplicationEventPublisher publisher;
 	
 	@GetMapping
 	public List<Categoria> listar() {
@@ -41,8 +47,10 @@ public class CategoriaResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 		.buildAndExpand(categoriaSalva.getId()).toUri();
 		response.setHeader("Location", uri.toASCIIString()); //aqui escreve a location da uri com o codigo criado
-		
-		return ResponseEntity.created(uri).body(categoriaSalva); // passa a uri que pode usar para fazer um get depois
+
+		publisher.publishEvent(new RecursoCriadorEvent(this, response, categoriaSalva.getId()));
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva); // passa a uri que pode usar para fazer um get depois
 	}
 	
 	@GetMapping("/{id}")
