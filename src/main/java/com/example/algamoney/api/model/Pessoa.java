@@ -10,22 +10,22 @@ public class Pessoa {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long idPessoa;
+    private Long id;
     @NotNull
     @Size(min = 3, max = 100)
     private String nome;
     @Embedded
-    private Endereco endereço;
+    private Endereco endereco;
 
     @NotNull
     private boolean ativo;
 
-    public Long getIdPessoa() {
-        return idPessoa;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdPessoa(Long idPessoa) {
-        this.idPessoa = idPessoa;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -36,12 +36,12 @@ public class Pessoa {
         this.nome = nome;
     }
 
-    public Endereco getEndereço() {
-        return endereço;
+    public Endereco getEndereco() {
+        return endereco;
     }
 
-    public void setEndereço(Endereco endereço) {
-        this.endereço = endereço;
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
     }
 
     public boolean isAtivo() { return ativo;}
@@ -54,7 +54,7 @@ public class Pessoa {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((idPessoa == null) ? 0 : idPessoa.hashCode());
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
         return result;
     }
 
@@ -67,10 +67,10 @@ public class Pessoa {
         if (getClass() != obj.getClass())
             return false;
         Pessoa other = (Pessoa) obj;
-        if (idPessoa == null) {
-            if (other.idPessoa != null)
+        if (id == null) {
+            if (other.id != null)
                 return false;
-        } else if (!idPessoa.equals(other.idPessoa))
+        } else if (!id.equals(other.id))
             return false;
         return true;
     }

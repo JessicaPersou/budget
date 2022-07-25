@@ -6,12 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/pessoa")
@@ -24,15 +22,16 @@ public class PessoaResource {
     public ResponseEntity<Pessoa> criarPessoa(@Valid @RequestBody Pessoa pessoa, HttpServletResponse response){
         Pessoa salvaPessoa = pessoaRepository.save(pessoa);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{idPessoa}")
-                .buildAndExpand(salvaPessoa.getIdPessoa()).toUri();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(salvaPessoa.getId()).toUri();
         response.setHeader("Location", uri.toASCIIString());
         return ResponseEntity.created(uri).body(salvaPessoa);
     }
 
-    @GetMapping("/{idPessoa}")
-    public ResponseEntity<Pessoa> buscarPorIdPessoa(@PathVariable Long idPessoa){
-        Optional<Pessoa> pessoa = pessoaRepository.findById(idPessoa);
-        return pessoa.isPresent() ?ResponseEntity.ok(pessoa.get()) : ResponseEntity.notFound().build();
+    @GetMapping("/{id}")
+    public ResponseEntity<Pessoa> buscarPorIdPessoa(@PathVariable Long id){
+        return this.pessoaRepository.findById(id)
+                .map(pessoa -> ResponseEntity.ok(pessoa))
+                .orElse(ResponseEntity.notFound().build());
     }
 }
