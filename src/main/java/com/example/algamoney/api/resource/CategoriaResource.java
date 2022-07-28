@@ -2,25 +2,17 @@ package com.example.algamoney.api.resource;
 
 import java.net.URI;
 import java.util.List;
-import java.util.concurrent.Flow;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.example.algamoney.api.event.RecursoCriadorEvent;
-import org.hibernate.annotations.NotFound;
+import com.example.algamoney.api.service.CategoriaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.algamoney.api.model.Categoria;
@@ -32,6 +24,9 @@ public class CategoriaResource {
 	
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+
+	@Autowired
+	private CategoriaService categoriaService;
 
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -59,6 +54,18 @@ public class CategoriaResource {
 				.map(categoria -> ResponseEntity.ok(categoria)) //caso a categoria exista, mostra com 200 ok
 				.orElse(ResponseEntity.notFound().build()); // não encontrado caso seja um id inexistente e 404 not found
 	}
-	
+
+	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletar(@PathVariable Long id){
+		categoriaRepository.deleteById(id);
+	}
+
+	@PutMapping("/{id}")
+	public Categoria atualizar(@PathVariable Long id,@Valid @RequestBody Categoria categoria) {
+		Categoria categoriaSalva = categoriaService.atualizar(id,categoria);
+		return this.categoriaRepository.save(categoriaSalva);
+
+	}
 }
 /*Também chamada de Controller é responsável por ligar a model e a view, fazendo com que os models possam ser representados para as views e vice-versa*/
